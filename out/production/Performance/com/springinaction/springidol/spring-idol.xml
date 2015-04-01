@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+       <bean id="duke"
+             class="com.springinaction.springidol.Juggler" >
+    <constructor-arg value="15" />
+    </bean>
+
+    <bean id="baseSaxophonist"
+          class="com.springinaction.springidol.Instrumentalist"
+          abstract="true">
+        <property name="instrument" ref="saxophone"/>
+        <property name="song" value="Jingle Bells"/>
+    </bean>
+
+    <bean id="sonnet29"
+          class="com.springinaction.springidol.Sonnet29" />
+
+    <bean id="poeticDuke"
+          class="com.springinaction.springidol.PoeticJuggler">
+        <constructor-arg value="15" />
+        <constructor-arg>
+            <bean class="com.springinaction.springidol.Sonnet29"/>
+        </constructor-arg>
+    </bean>
+
+    <bean id="theStage"
+          class="com.springinaction.springidol.Stage"
+          factory-method="getInstance" />
+
+    <bean id="ticket"
+          class="com.springinaction.springidol.Ticket" scope="prototype" />
+
+    <bean id="auditorium"
+          class="com.springinaction.springidol.Auditorium"
+          init-method="turnOnLights"
+          destroy-method="turnOffLights"/>
+
+    <bean id="saxophone"
+          class="com.springinaction.springidol.Saxophone" />
+
+    <bean id="piano"
+            class="com.springinaction.springidol.Piano" />
+
+    <bean id="guitar"
+          class="com.springinaction.springidol.Guitar" />
+
+    <bean id="cymbal"
+          class="com.springinaction.springidol.Cymbal"/>
+
+    <bean id="harmonica"
+          class="com.springinaction.springidol.Harmonica"/>
+
+    <bean id="hank"
+          class="com.springinaction.springidol.OneManBand">
+        <property name="instruments">
+           <map>
+               <entry key="GUITAR" value-ref="guitar"/>
+               <entry key="CYMBAL" value-ref="cymbal"/>
+               <entry key="HARMONICA" value-ref="harmonica"/>
+           </map>
+        </property>
+    </bean>
+
+    <bean id="kenny" parent="baseSaxophonist"/>
+
+    <bean id="david" parent="baseSaxophonist"/>
+
+    <bean id="frank" parent="baseSaxophonist">
+        <property name="song" value="Mary had a little lamb"/>
+    </bean>
+
+    <bean id="basePerformer"
+          class="com.springinaction.springidol.Vocalist"
+          abstract="true">
+        <property name="song" value="Somewhere Over the Rainbow" />
+    </bean>
+
+    <bean id="taylor"
+          class="com.springinaction.springidol.Vocalist"
+          parent="basePerformer" />
+
+    <bean id="stevie"
+          class="com.springinaction.springidol.Instrumentalist"
+          parent="basePerformer">
+        <property name="instrument" ref="guitar" />
+    </bean>
+
+    <bean id="magicBox"
+          class="com.springinaction.springidol.MagicBoxImpl">
+            <replaced-method
+                name = "getContents"
+                replacer="tigerReplacer"/>
+    </bean>
+
+
+    <bean id="harry"
+          class="com.springinaction.springidol.Magician">
+        <property name="magicBox" ref="magicBox" />
+        <property name="magicWords" value="Bippity boppity boo" />
+    </bean>
+
+    <bean id="tigerReplacer"
+          class="com.springinaction.springidol.TigerReplacer" />
+
+
+
+
+
+
+</beans>
